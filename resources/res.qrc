@@ -1,0 +1,25 @@
+<RCC>
+    <qresource prefix="/">
+        <file>test.png</file>
+        <file>check.png</file>
+        <file>settings.png</file>
+        <file>icon.png</file>
+        <file>text.txt</file>
+        <file>right.png</file>
+        <file>left.png</file>
+        <file>noncheck.png</file>
+        <file>loadscr.png</file>
+        <file>grad.png</file>
+        <file>mini_background.png</file>
+        <file>block_check.png</file>
+        <file>block_test.png</file>
+        <file>small_check.png</file>
+        <file>small_test.png</file>
+        <file>small_settings.png</file>
+        <file>download.png</file>
+        <file>light_grad.png</file>
+        <file>background.png</file>
+        <file>small_left.png</file>
+        <file>small_right.png</file>
+    </qresource>
+</RCC>
