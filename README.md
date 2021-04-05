@@ -71,6 +71,12 @@ Either way you can just close that window with button in the upper right corner 
 
 ### Epilogue
 
+Every image in /resources is my own image made in Photoshop :).
+
+There is document /resources/text.txt which is an example document.
+
 Thank you for reading this introduction, hope you found that interesting enough and will check out the code/program itself!
 
 Feel free to contact me if you will find any bugs.
+
+
