@@ -19,13 +19,15 @@ Therefore, this code _SHOULDN'T_ in any shape or form  be an example on how to d
 
 ![screenshot](https://github.com/dacsson/Slicer/blob/main/backg.jpg)
 
-## 2.The First step is to click _Settings_ icon and upload your "{}.txt" file with lecture and test questions with the syntax i'll explain below 
+## 2.The First step is to click _Settings_ icon and upload your "{}.txt" ( or {}.slc )file with lecture and test questions with the syntax i'll explain below 
 
 You can view the document in preview window.
 
 ![screenshot](https://github.com/dacsson/Slicer/blob/main/settings.jpg)
 
 Then click purple button to apply changes.
+
+You can click button "Generate" to generate {}.slc file, which is encrypted (not really) copy of {}.txt file.
 
 # Syntax of the document
 
