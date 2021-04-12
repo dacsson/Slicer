@@ -9,18 +9,27 @@
 #include <QThread>
 #include <QGraphicsOpacityEffect>
 #include <QPropertyAnimation>
+#include <QTextCodec>
 
 //path to the file user downl
 QString file_name;
 
 //name of student
-QString user_name;
+QString user_name = "";
+
+//preview
+QString all_str;
+
+//to read non-english letters
+QTextCodec* codecc = QTextCodec::codecForName("UTF-8");
 
 settings::settings(QWidget *parent) :
     QDialog(parent),
     ui(new Ui::settings)
 {
     ui->setupUi(this);
+
+    ui->generate->hide();
     this->setWindowFlag(Qt::FramelessWindowHint, true);
     //QGraphicsOpacityEffect *eff = new QGraphicsOpacityEffect(this);
     //this->setGraphicsEffect(eff);
@@ -62,7 +71,7 @@ void settings::on_swish_clicked()
 
 void settings::on_downl_clicked()
 {
-    file_name = QFileDialog::getOpenFileName(this, "Открыть файл", QDir::homePath(), "Text file (*.txt)");
+    file_name = QFileDialog::getOpenFileName(this, "Открыть файл", QDir::homePath(), "Text file (*.txt);; Slicer file (*.slc)");
     //QMessageBox::information(this, "...", file_name);
 
     QFile file(file_name);
@@ -70,9 +79,11 @@ void settings::on_downl_clicked()
         QMessageBox::information(0, "info", file.errorString());
     QTextStream in (&file);
     if(file.isOpen()) {
+        ui->generate->show();
         while(!file.atEnd()) {
-            QString bigstr = QString::fromLocal8Bit((file.readAll()));
-            ui->Readin->setText(bigstr);
+            all_str = QString::fromLocal8Bit((file.readAll()));
+            ui->Readin->setText(all_str);
+
     }
   }
 }
@@ -100,5 +111,28 @@ void settings::on_apply_clicked()
     a->start(QPropertyAnimation::DeleteWhenStopped);
     connect(a,SIGNAL(finished()),this,SLOT(close()));
     //this->close();
+
+}
+
+void settings::on_generate_clicked()
+{
+    QString file_path;
+    file_path = QFileDialog::getSaveFileName( this,
+                                              tr("Сохранить файл как"),
+                                              QDir::homePath(),
+                                              tr("Slicer file (*.slc)")
+                                              );
+
+
+    QFile file(file_name);
+    if(!file.open(QIODevice::ReadOnly))
+        QMessageBox::information(0, "info", file.errorString());
+    QTextStream in (&file);
+    if(file.isOpen()) {
+        qDebug() << file_path;
+        file.copy(file_name, file_path);
+
+    }
+
 
 }

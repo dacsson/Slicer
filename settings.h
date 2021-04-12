@@ -29,6 +29,8 @@ private slots:
 
     void on_apply_clicked();
 
+    void on_generate_clicked();
+
 private:
     Ui::settings *ui;
 //    void mousePressEvent(QMouseEvent *event);

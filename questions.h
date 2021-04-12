@@ -43,6 +43,8 @@ private slots:
 
     void on_save_clicked();
 
+    void on_okay_clicked();
+
 private:
     Ui::questions *ui;
     settings *sett;

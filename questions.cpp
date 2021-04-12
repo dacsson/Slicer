@@ -55,6 +55,7 @@ questions::questions(QWidget *parent) :
     ui->setupUi(this);
     ui->pass->hide();
     ui->save->hide();
+    ui->okay->hide();
     this->setWindowFlag(Qt::FramelessWindowHint, true);
 
     //fade animation
@@ -289,14 +290,14 @@ void questions::on_questions_accepted()
 void questions::on_check1_clicked()
 {
     user_ans[quest_num-1] = 1;
-    qDebug() << user_ans[quest_num-1] << " - " << right_answers[quest_num-1];
+    //qDebug() << user_ans[quest_num-1] << " - " << right_answers[quest_num-1];
 }
 
 
 void questions::on_check2_clicked()
 {
     user_ans[quest_num-1] = 2;
-    qDebug() << user_ans[quest_num-1] << " - " << right_answers[quest_num-1];
+    //qDebug() << user_ans[quest_num-1] << " - " << right_answers[quest_num-1];
 }
 
 void questions::on_check3_clicked()
@@ -336,6 +337,7 @@ void questions::on_pass_clicked()
     //change button from sumbit to save
     ui->pass->hide();
     ui->save->show();
+    ui->okay->show();
 
     ui->check1->hide();
     ui->check2->hide();
@@ -395,7 +397,7 @@ void questions::on_save_clicked()
             temp_text = QString::number(i+1);
             temp_text1 = QString::number(user_ans[i]);
             temp_text2 = QString::number(right_answers[i]);
-            QString everything = ("\n" + temp_text + " вопрос: " + temp_text1 + "/" + temp_text2);
+            QString everything = ("\n" + temp_text + ": " + temp_text1 + "/" + temp_text2);
             stream << everything;
             if(user_ans[i] != right_answers[i]) {
                 all--;
@@ -404,9 +406,25 @@ void questions::on_save_clicked()
         temp_text3 = QString::number(all);
         temp_text4 = QString::number(quest_num);
         stream << ("\n\n" + temp_text3 + " | " + temp_text4);
+        stream << ("\n\nVar: " + user_name);
     }
 
     //clearing memory otherwise itll be...too bad!
+
+    delete[]user_ans;
+    delete[]right_answers;
+
+    QPropertyAnimation *a = new QPropertyAnimation(this,"windowOpacity");
+    a->setStartValue(1.0);
+    a->setDuration(400);
+    a->setEndValue(0.0);
+    a->setEasingCurve(QEasingCurve::InSine);
+    a->start(QPropertyAnimation::DeleteWhenStopped);
+    connect(a,SIGNAL(finished()),this,SLOT(close()));
+}
+
+void questions::on_okay_clicked()
+{
 
     delete[]user_ans;
     delete[]right_answers;
