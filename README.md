@@ -1,6 +1,6 @@
-# ScienceBot
+# Slicer
 
-### Prologue
+### Пролог
 
 This program is my first experience in creating a workig _Window Application_ as a first year Software Development student.
 
