@@ -2,18 +2,20 @@
 
 ### Пролог
 
-This program is my first experience in creating a workig _Window Application_ as a first year Software Development student.
+Данная программа - мой первый опыт в создании _Окнного приложения_, как студента 1-го курса Программной инженерии.
 
-Therefore, this code _SHOULDN'T_ in any shape or form  be an example on how to do such things (write C++ Window Applications using Qt6).
+Потому, данная программа _НЕ ДОЛЖНА_ служить пример по написанию таких приложений.
 
-### Purpose of the program
+Приложение написано на C++, используя Qt6.
 
-**"Slicer"** - is program for _educational_ purposes, with such functions as:
-- Giving user a lecture, which you upload directly via program's GUI (as a document) 
-- Giving user a test, which you upload directly via program's GUI
-- Saving user's test results in {}.txt
+### Цели программы
 
-### How to use
+**"Slicer"** - программа, прелседующая _обучающие_ цели, с такими функциями как:
+- Выдавать пользователю лекцию, которую он загружает через интерфейс программы (*.txt, *.slc файлы). 
+- Выдавать пользователю тест на основе лекции, который также загружается через интерфейс программы.
+- Сохранений результатов теста.
+
+### Гайд по пользованию
 
 ## 1. Dowload the installer and install the program (version of the program in installer might not be the latest one) / Download the soucre code and compile it yourself 
 
