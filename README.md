@@ -17,7 +17,7 @@
 
 ### Гайд по пользованию
 
-## 1. Dowload the installer and install the program (version of the program in installer might not be the latest one) / Download the soucre code and compile it yourself 
+## 1. Установить *инсталятор* и скачать программу 
 
 ![screenshot](https://github.com/dacsson/Slicer/blob/main/backg.jpg)
 
