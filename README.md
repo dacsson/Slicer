@@ -22,7 +22,6 @@
 
 ![screenshot](https://github.com/dacsson/Slicer/blob/main/backg.jpg)
 
-## 2.The First step is to click _Settings_ icon and upload your "{}.txt" ( or {}.slc )file with lecture and test questions with the syntax i'll explain below 
 ## 2.Первый шаг - назажть на кнопку _Настройки_ и загрузить свой "{}.slc" ( или {}.txt ) со структурой, которая будет описана ниже. 
 Продолжать работу можно только с .slc файлом (.slc - зашифрованный файл с определённым синатксисом; его можно создать в редакторе программы, также можно загрузить .txt файл, перейти в редактор где будет представленно содержимое .txt файла, чтобы его можно было сохранить как .slc файл)
 
