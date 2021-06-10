@@ -2,17 +2,18 @@
 
 ### Пролог
 
-Данная программа - мой первый опыт в создании _Окнного приложения_, как студента 1-го курса Программной инженерии.
+Данная программа - мой первый опыт в создании _Окнного приложения_, в рамках курсовой работы, как студента 1-го курса Программной инженерии.
 
 Потому, данная программа _НЕ ДОЛЖНА_ служить пример по написанию таких приложений.
 
-Приложение написано на C++, используя Qt6.
+Приложение написано на C++, используя Qt6 в интегрированной среде QtCreator.
 
 ### Цели программы
 
 **"Slicer"** - программа, прелседующая _обучающие_ цели, с такими функциями как:
 - Выдавать пользователю лекцию, которую он загружает через интерфейс программы (*.txt, *.slc файлы). 
 - Выдавать пользователю тест на основе лекции, который также загружается через интерфейс программы.
+- Показывать визуализацию умножения матриц методом Штрассена и Винограда.
 - Сохранений результатов теста.
 
 ### Гайд по пользованию
@@ -22,18 +23,16 @@
 ![screenshot](https://github.com/dacsson/Slicer/blob/main/backg.jpg)
 
 ## 2.The First step is to click _Settings_ icon and upload your "{}.txt" ( or {}.slc )file with lecture and test questions with the syntax i'll explain below 
-
-You can view the document in preview window.
+## 2.Первый шаг - назажть на кнопку _Настройки_ и загрузить свой "{}.slc" ( или {}.txt ) со структурой, которая будет описана ниже. 
+Продолжать работу можно только с .slc файлом (.slc - зашифрованный файл с определённым синатксисом; его можно создать в редакторе программы, также можно загрузить .txt файл, перейти в редактор где будет представленно содержимое .txt файла, чтобы его можно было сохранить как .slc файл)
 
 ![screenshot](https://github.com/dacsson/Slicer/blob/main/settings.jpg)
 
-Then click purple button to apply changes.
+Можно вписать личный индентификатор (Вариант, Фамилию), который будет записан в файле с результатами тестирования. Затем кликнуть "Применить".
 
-You can click button "Generate" to generate {}.slc file, which is encrypted (not really) copy of {}.txt file.
+# Синтаксис документа
 
-# Syntax of the document
-
-Document that you will upload contains both _lecture_ devided into pages yourself and _test_. Syntax goes as follows:
+Загружаемый документ содержит как _лекцию_, так и _тест_ и придерживается следующего синтаксиса:
 
 - pages marked by: "|{number of the page}|" (the beggining of the document should have |0| **before** lecture); for example: "|4|" - fourth page
 - after the "|{number of the last page}|" and _enter_ should go anwsers to test questions: "[0]:{first question answer}{second question answer}"; for example: "[0]:1435" - 4 answers for 4 questions
