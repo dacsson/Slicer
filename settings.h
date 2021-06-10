@@ -3,6 +3,7 @@
 
 #include <QDialog>
 #include <windows.h>
+#include "editor.h"
 
 namespace Ui {
 class settings;
@@ -17,11 +18,6 @@ public:
     ~settings();
 
 private slots:
-    void on_Test_clicked();
-
-    void on_Paper_clicked();
-
-    void on_Settings_clicked();
 
     void on_swish_clicked();
 
@@ -29,14 +25,15 @@ private slots:
 
     void on_apply_clicked();
 
-    void on_generate_clicked();
+    void on_edit_clicked();
 
 private:
     Ui::settings *ui;
-//    void mousePressEvent(QMouseEvent *event);
-//    void mouseMoveEvent(QMouseEvent *event);
-//    int m_nMouseClick_X_Coordinate;
-//    int m_nMouseClick_Y_Coordinate;
+    editor *edit;
+    void mousePressEvent(QMouseEvent *event);
+    void mouseMoveEvent(QMouseEvent *event);
+    int m_nMouseClick_X_Coordinate;
+    int m_nMouseClick_Y_Coordinate;
 };
 
 #endif // SETTINGS_H

@@ -3,8 +3,8 @@
 
 #include <QDialog>
 #include <windows.h>
-#include <questions.h>
-#include <settings.h>
+#include "visual.h"
+
 namespace Ui {
 class test_wind;
 }
@@ -28,18 +28,14 @@ private slots:
 
     void on_left_clicked();
 
-    void on_Paper_clicked();
-
-    void on_Settings_clicked();
-
 private:
     Ui::test_wind *ui;
-    questions *quest;
-    settings *sett;
-//    void mousePressEvent(QMouseEvent *event);
-//    void mouseMoveEvent(QMouseEvent *event);
-//    int m_nMouseClick_X_Coordinate;
-//    int m_nMouseClick_Y_Coordinate;
+    visual *vis;
+    void mousePressEvent(QMouseEvent *event);
+    void mouseMoveEvent(QMouseEvent *event);
+    int m_nMouseClick_X_Coordinate;
+    int m_nMouseClick_Y_Coordinate;
+    void Replace(QString &text);
 };
 
 #endif // TEST_WIND_H

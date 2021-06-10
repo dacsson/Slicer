@@ -28,8 +28,6 @@ settings::settings(QWidget *parent) :
     ui(new Ui::settings)
 {
     ui->setupUi(this);
-
-    ui->generate->hide();
     this->setWindowFlag(Qt::FramelessWindowHint, true);
     //QGraphicsOpacityEffect *eff = new QGraphicsOpacityEffect(this);
     //this->setGraphicsEffect(eff);
@@ -48,25 +46,18 @@ settings::~settings()
     delete ui;
 }
 
-void settings::on_Test_clicked()
-{
-
-}
-
-void settings::on_Paper_clicked()
-{
-
-}
-
-
-void settings::on_Settings_clicked()
-{
-
-}
-
 void settings::on_swish_clicked()
 {
-    this->hide();
+    QPropertyAnimation *a = new QPropertyAnimation(this,"windowOpacity");
+    a->setStartValue(1.0);
+    a->setDuration(400);
+    a->setEndValue(0.0);
+    a->setEasingCurve(QEasingCurve::InSine);
+    a->start(QPropertyAnimation::DeleteWhenStopped);
+    this->parentWidget()->setWindowOpacity(1.0);
+    this->parentWidget()->move(geometry().x(),geometry().y());
+    this->parentWidget()->show();
+    connect(a,SIGNAL(finished()),this,SLOT(hide()));
 }
 
 void settings::on_downl_clicked()
@@ -79,24 +70,24 @@ void settings::on_downl_clicked()
         QMessageBox::information(0, "info", file.errorString());
     QTextStream in (&file);
     if(file.isOpen()) {
-        ui->generate->show();
         while(!file.atEnd()) {
-            all_str = QString::fromLocal8Bit((file.readAll()));
-            ui->Readin->setText(all_str);
+          all_str = QString::fromLocal8Bit((file.readAll()));
+          ui->Readin->setText("\n\tФайл успешно загружен");
+          ui->Readin->setAlignment(Qt::AlignCenter);
 
+        }
     }
-  }
 }
 
-//void settings::mousePressEvent(QMouseEvent *event) {
-//    m_nMouseClick_X_Coordinate = event->position().x();
-//    m_nMouseClick_Y_Coordinate = event->position().y();
-//    qDebug() << m_nMouseClick_X_Coordinate << " -settings- " << m_nMouseClick_Y_Coordinate;
-//}
+void settings::mousePressEvent(QMouseEvent *event) {
+    m_nMouseClick_X_Coordinate = event->position().x();
+    m_nMouseClick_Y_Coordinate = event->position().y();
+    qDebug() << m_nMouseClick_X_Coordinate << " -settings- " << m_nMouseClick_Y_Coordinate;
+}
 
-//void settings::mouseMoveEvent(QMouseEvent *event) {
-//    move(event->globalPosition().x()-m_nMouseClick_X_Coordinate,event->globalPosition().y()-m_nMouseClick_Y_Coordinate);
-//}
+void settings::mouseMoveEvent(QMouseEvent *event) {
+    move(event->globalPosition().x()-m_nMouseClick_X_Coordinate,event->globalPosition().y()-m_nMouseClick_Y_Coordinate);
+}
 
 void settings::on_apply_clicked()
 {
@@ -109,30 +100,28 @@ void settings::on_apply_clicked()
     a->setEndValue(0.0);
     a->setEasingCurve(QEasingCurve::InSine);
     a->start(QPropertyAnimation::DeleteWhenStopped);
+    this->parentWidget()->setWindowOpacity(1.0);
+    this->parentWidget()->move(geometry().x(),geometry().y());
+    this->parentWidget()->show();
     connect(a,SIGNAL(finished()),this,SLOT(close()));
     //this->close();
 
 }
 
-void settings::on_generate_clicked()
+void settings::on_edit_clicked()
 {
-    QString file_path;
-    file_path = QFileDialog::getSaveFileName( this,
-                                              tr("Сохранить файл как"),
-                                              QDir::homePath(),
-                                              tr("Slicer file (*.slc)")
-                                              );
+    QPropertyAnimation *a = new QPropertyAnimation(this,"windowOpacity");
+    a->setStartValue(1.0);
+    a->setDuration(400);
+    a->setEndValue(0.0);
+    a->setEasingCurve(QEasingCurve::InSine);
+    a->start(QPropertyAnimation::DeleteWhenStopped);
+    connect(a,SIGNAL(finished()),this,SLOT(hide()));
 
-
-    QFile file(file_name);
-    if(!file.open(QIODevice::ReadOnly))
-        QMessageBox::information(0, "info", file.errorString());
-    QTextStream in (&file);
-    if(file.isOpen()) {
-        qDebug() << file_path;
-        file.copy(file_name, file_path);
-
-    }
-
+    edit = new editor(this);
+    int x = geometry().x();
+    int y = geometry().y();
+    edit ->move(x, y);
+    edit ->show();
 
 }

@@ -21,10 +21,6 @@ private slots:
 
     void on_swish_clicked();
 
-//    void on_Test_clicked();
-
-//    void on_Settings_clicked();
-
     void on_right_clicked();
 
     void on_left_clicked();
@@ -48,10 +44,11 @@ private slots:
 private:
     Ui::questions *ui;
     settings *sett;
-//    void mousePressEvent(QMouseEvent *event);
-//    void mouseMoveEvent(QMouseEvent *event);
-//    int m_nMouseClick_X_Coordinate;
-//    int m_nMouseClick_Y_Coordinate;
+    void mousePressEvent(QMouseEvent *event);
+    void mouseMoveEvent(QMouseEvent *event);
+    int m_nMouseClick_X_Coordinate;
+    int m_nMouseClick_Y_Coordinate;
+    void Replace(QString &text);
 };
 
 #endif // QUESTIONS_H

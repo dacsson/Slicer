@@ -31,6 +31,15 @@ void MainWindow::on_Test_clicked()
         small+=2;
         QThread::msleep(40);
     }
+
+    QPropertyAnimation *a = new QPropertyAnimation(this,"windowOpacity");
+    a->setStartValue(1.0);
+    a->setDuration(400);
+    a->setEndValue(0.0);
+    a->setEasingCurve(QEasingCurve::InSine);
+    a->start(QPropertyAnimation::DeleteWhenStopped);
+    connect(a,SIGNAL(finished()),this,SLOT(hide()));
+
     test_w = new test_wind(this);
     int x = geometry().x();
     int y = geometry().y();
@@ -68,6 +77,15 @@ void MainWindow::on_Settings_clicked()
         small+=2;
         QThread::msleep(40);
     }
+
+    QPropertyAnimation *a = new QPropertyAnimation(this,"windowOpacity");
+    a->setStartValue(1.0);
+    a->setDuration(400);
+    a->setEndValue(0.0);
+    a->setEasingCurve(QEasingCurve::InSine);
+    a->start(QPropertyAnimation::DeleteWhenStopped);
+    connect(a,SIGNAL(finished()),this,SLOT(hide()));
+
     settin = new settings(this);
     int x = geometry().x();
     int y = geometry().y();
@@ -83,6 +101,15 @@ void MainWindow::on_Paper_clicked()
         small+=2;
         QThread::msleep(40);
     }
+
+    QPropertyAnimation *a = new QPropertyAnimation(this,"windowOpacity");
+    a->setStartValue(1.0);
+    a->setDuration(400);
+    a->setEndValue(0.0);
+    a->setEasingCurve(QEasingCurve::InSine);
+    a->start(QPropertyAnimation::DeleteWhenStopped);
+    connect(a,SIGNAL(finished()),this,SLOT(hide()));
+
     quest = new questions(this);
     int x = geometry().x();
     int y = geometry().y();

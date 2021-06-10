@@ -70,6 +70,9 @@ void test_wind::on_swish_clicked()
     a->setEndValue(0.0);
     a->setEasingCurve(QEasingCurve::InSine);
     a->start(QPropertyAnimation::DeleteWhenStopped);
+    this->parentWidget()->setWindowOpacity(1.0);
+    this->parentWidget()->move(geometry().x(),geometry().y());
+    this->parentWidget()->show();
     connect(a,SIGNAL(finished()),this,SLOT(close()));
     //this->hide();
 }
@@ -84,11 +87,13 @@ void test_wind::on_Test_clicked()
         QTextStream in (&file);
         while(!file.atEnd()) {
             bigstr = QString::fromLocal8Bit((file.readAll()));
+            Replace(bigstr);
             progressing = bigstr;
             int que = bigstr.indexOf("[0]");
             bigstr = bigstr.mid(0, que-2);
             int k = bigstr.indexOf("|1|");
             str = bigstr.mid(0+3, k-3);
+            qDebug() << "\n * " << str;
             i += k;
             ui->Readin->setText((str));
             flag=1;
@@ -96,7 +101,8 @@ void test_wind::on_Test_clicked()
 
         //progress
         progressValues = progressing.indexOf("[0]");
-        progressing = progressing.mid(progressValues-4, 1);
+        qDebug() << progressing.mid(progressValues-3, 10) << " progress ";
+        progressing = progressing.mid(progressValues-3, 1);
         qDebug() << progressing << " progress ";
         progressValues = progressing.toInt();
         tempo = progressValues;
@@ -121,8 +127,9 @@ void test_wind::on_right_clicked()
         QTextStream in (&file);
         while(!file.atEnd()) {
             bigstr = QString::fromLocal8Bit((file.readAll()));
+            Replace(bigstr);
             int que = bigstr.indexOf("[0]");
-            bigstr = bigstr.mid(0, que-2);
+            bigstr = bigstr.mid(0, que-1);
             if(i+3 < bigstr.length()) {
                 paperlist++;
                 paperindex = QString::number(paperlist);
@@ -158,7 +165,14 @@ void test_wind::on_right_clicked()
                 a->setEndValue(0.0);
                 a->setEasingCurve(QEasingCurve::InSine);
                 a->start(QPropertyAnimation::DeleteWhenStopped);
-                connect(a,SIGNAL(finished()),this,SLOT(close()));
+                vis = new visual(this);
+                int x = geometry().x();
+                int y = geometry().y();
+                vis ->move(x, y);
+                vis ->show();
+                connect(a,SIGNAL(finished()),this,SLOT(hide()));
+
+
             }
         }
     }
@@ -174,6 +188,7 @@ void test_wind::on_left_clicked()
     QTextStream in (&file);
     while(!file.atEnd()) {
         bigstr = QString::fromLocal8Bit((file.readAll()));
+        Replace(bigstr);
         int que = bigstr.indexOf("[0]");
         bigstr = bigstr.mid(0, que-2);
         if(paperlist > 1) {
@@ -206,35 +221,51 @@ void test_wind::on_left_clicked()
     }
 }
 
-//void test_wind::mousePressEvent(QMouseEvent *event) {
-//    m_nMouseClick_X_Coordinate = event->position().x();
-//    m_nMouseClick_Y_Coordinate = event->position().y();
-//    qDebug() << m_nMouseClick_X_Coordinate << " -1tst- " << m_nMouseClick_Y_Coordinate;
-//}
-
-//void test_wind::mouseMoveEvent(QMouseEvent *event) {
-//    move(event->globalPosition().x()-m_nMouseClick_X_Coordinate,event->globalPosition().y()-m_nMouseClick_Y_Coordinate);
-//    qDebug() << m_nMouseClick_X_Coordinate << " -2tst- " << m_nMouseClick_Y_Coordinate;
-//}
-
-//delete such finctions as if i deleted the buttons in thumb
-void test_wind::on_Paper_clicked()
-{
-    quest = new questions(this);
-    int x = geometry().x();
-    int y = geometry().y();
-    quest -> move(x, y);
-    quest -> show();
+void test_wind::mousePressEvent(QMouseEvent *event) {
+    m_nMouseClick_X_Coordinate = event->position().x();
+    m_nMouseClick_Y_Coordinate = event->position().y();
+    qDebug() << m_nMouseClick_X_Coordinate << " -1tst- " << m_nMouseClick_Y_Coordinate;
 }
 
-//this too should go
-void test_wind::on_Settings_clicked()
-{
-    sett = new settings(this);
-    int x = geometry().x();
-    int y = geometry().y();
-    sett -> move(x, y);
-    sett -> show();
+void test_wind::mouseMoveEvent(QMouseEvent *event) {
+    move(event->globalPosition().x()-m_nMouseClick_X_Coordinate,event->globalPosition().y()-m_nMouseClick_Y_Coordinate);
+    qDebug() << m_nMouseClick_X_Coordinate << " -2tst- " << m_nMouseClick_Y_Coordinate;
+}
+
+void test_wind::Replace(QString &text) {
+    QMap<QString, QString> replace {
+        {"0", "?!*(#-=#"},
+        {"1", "!*!(#-#--"},
+        {"2", "*))!(#=@"},
+        {"3", "?*#)=#-=#"},
+        {"4", "-!(#-=!#="},
+        {"5", "=$:;==--"},
+        {"6", "Ap;l==#-$"},
+        {"7", "-#=#-??*"},
+        {"а", "###-=-@@@"},
+        {"б", "@@@-=-###"},
+        {"в", "###===@@$"},
+        {"г", "$##---@@@"},
+        {"д", "$##===-@@"},
+        {"е", "@-=-!##$#"},
+        {"ж", "#%=%@@@-#"},
+        {"з", "##====@@$"},
+        {"и", "##$$$=-=#"},
+        {"к", "#!!#$=$##"},
+        {"л", "#$#$#$=--"},
+        {"м", "$#$#$#!-!"},
+        {"н", "!#!#!#!-$"},
+        {"о", "!#!#!#!=$"},
+        {"п", "%#%#%#%-!"},
+        {"с", "$!$!-#=#!"},
+        {"у", "(#(#=-$!%"},
+        {"х", "##-(%-=#!"}
+    };
+    QMap<QString, QString>::const_iterator i = replace.constBegin();
+    while (i != replace.constEnd()) {
+        text.replace(i.value(), i.key());
+        ++i;
+    }
 }
 
 

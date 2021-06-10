@@ -13,6 +13,8 @@
 #include <QGraphicsOpacityEffect>
 #include <QPropertyAnimation>
 #include <QTextCodec>
+#include <vector>
+#include <algorithm>
 
 //to read non-english letters
 QTextCodec* codeck = QTextCodec::codecForName("UTF-8");
@@ -47,6 +49,12 @@ QTextCodec* codec2 = QTextCodec::codecForName("UTF-8");
 //user answers
 int *user_ans;
 
+//ответы в строках
+std::vector<QString> right_ans_strings, user_ans_strings;
+
+//ответы
+QString v1, v2, v3, v4;
+
 questions::questions(QWidget *parent) :
     QDialog(parent),
     ui(new Ui::questions)
@@ -75,7 +83,7 @@ questions::questions(QWidget *parent) :
     qDebug() << "1 test: " << file_name;
     while(!file.atEnd()) {
         bigstring = QString::fromLocal8Bit((file.readAll()));
-        qDebug() << "2 test: " << bigstring;
+        Replace(bigstring);
         all = bigstring; //to find answers later
         int i = bigstring.indexOf("?1?");
         int j = bigstring.indexOf(".1.");
@@ -84,16 +92,16 @@ questions::questions(QWidget *parent) :
         int exp = all_str.indexOf("!1");
         QString q_str = all_str.mid(0, exp);
         int var1 = all_str.indexOf("!2");
-        QString v1 = all_str.mid(exp+2, (var1-exp-2));
+        v1 = all_str.mid(exp+2, (var1-exp-2));
         ui->Readin_2->setText(v1);
         int var2 = all_str.indexOf("!3");
-        QString v2 = all_str.mid((var1+2), (var2-var1-2));
+        v2 = all_str.mid((var1+2), (var2-var1-2));
         ui->Readin_3->setText(v2);
         int var3 = all_str.indexOf("!4");
-        QString v3 = all_str.mid((var2+2), (var3-var2-2));
+        v3 = all_str.mid((var2+2), (var3-var2-2));
         ui->Readin_4->setText(v3);
         int var4 = all_str.indexOf("!5");
-        QString v4 = all_str.mid((var3+2), (var4-var3-2));
+        v4 = all_str.mid((var3+2), (var4-var3-2));
         ui->Readin_5->setText(v4);
         bigstring = bigstring.mid(j);
         qDebug() << "4 test: " << q_str;
@@ -115,6 +123,10 @@ questions::questions(QWidget *parent) :
         right_answers[i] = ans_line.toInt();
         //qDebug() << ans_line << "answer" << right_answers[i];
         num_of_ans++;
+
+        //заполнить вектор чтобы изменить
+        user_ans_strings.push_back("0");
+        right_ans_strings.push_back("0");
 
     //user ans
     user_ans = new int [temp];
@@ -140,23 +152,11 @@ void questions::on_swish_clicked()
     a->setEndValue(0.0);
     a->setEasingCurve(QEasingCurve::InSine);
     a->start(QPropertyAnimation::DeleteWhenStopped);
-    connect(a,SIGNAL(finished()),this,SLOT(close()));
-    this->hide();
+    this->parentWidget()->setWindowOpacity(1.0);
+    this->parentWidget()->move(geometry().x(),geometry().y());
+    this->parentWidget()->show();
+    connect(a,SIGNAL(finished()),this,SLOT(hide()));
 }
-
-//void questions::on_Test_clicked()
-//{
-//    this->hide();
-//}
-
-//void questions::on_Settings_clicked()
-//{
-//    sett = new settings(this);
-//    int x = geometry().x();
-//    int y = geometry().y();
-//    sett -> move(x, y);
-//    sett -> show();
-//}
 
 void questions::on_right_clicked()
 {
@@ -168,6 +168,7 @@ void questions::on_right_clicked()
     while(!file.atEnd()) {
         quest_num++;
         bigstring = QString::fromLocal8Bit((file.readAll()));
+        Replace(bigstring);
         first_index = "?";
         substr = QString::number(quest_num);
         first_index = first_index.append(substr);
@@ -183,16 +184,16 @@ void questions::on_right_clicked()
             int exp = substr.indexOf("!1");
             QString q_str = substr.mid(0, exp-2);
             int var1 = substr.indexOf("!2");
-            QString v1 = substr.mid(exp+2, (var1-exp-2));
+            v1 = substr.mid(exp+2, (var1-exp-2));
             ui->Readin_2->setText(v1);
             int var2 = substr.indexOf("!3");
-            QString v2 = substr.mid((var1+2), (var2-var1-2));
+            v2 = substr.mid((var1+2), (var2-var1-2));
             ui->Readin_3->setText(v2);
             int var3 = substr.indexOf("!4");
-            QString v3 = substr.mid((var2+2), (var3-var2-2));
+            v3 = substr.mid((var2+2), (var3-var2-2));
             ui->Readin_4->setText(v3);
             int var4 = substr.indexOf("!5");
-            QString v4 = substr.mid((var3+2), (var4-var3-2));
+            v4 = substr.mid((var3+2), (var4-var3-2));
             ui->Readin_5->setText(v4);
             ui->Questions->setText((q_str));
             ui->quest_progress->setValue(10);
@@ -210,12 +211,18 @@ void questions::on_right_clicked()
                  ui->pass->show();
             }
 
-            //clear button
-            //add -setAutoExclusive(flase) ... -setAutoExclusive(true) later!!
-            ui->check1->setChecked(false);
-            ui->check2->setChecked(false);
-            ui->check3->setChecked(false);
-            ui->check4->setChecked(false);
+            if(right_answers[quest_num-1] == 1) {
+                right_ans_strings[quest_num-1] = v1;
+            }
+            if(right_answers[quest_num-1] == 2) {
+                right_ans_strings[quest_num-1] = v2;
+            }
+            if(right_answers[quest_num-1] == 3) {
+                right_ans_strings[quest_num-1] = v3;
+            }
+            if(right_answers[quest_num-1] == 4) {
+                right_ans_strings[quest_num-1] = v4;
+            }
         }
         else {
             quest_num--;
@@ -235,6 +242,7 @@ void questions::on_left_clicked()
     while(!file.atEnd()) {
         quest_num--;
         bigstring = QString::fromLocal8Bit((file.readAll()));
+        Replace(bigstring);
         first_index = "?";
         substr = QString::number(quest_num);
         first_index = first_index.append(substr);
@@ -249,16 +257,16 @@ void questions::on_left_clicked()
         int exp = substr.indexOf("!1");
         QString q_str = substr.mid(0, exp-2);
         int var1 = substr.indexOf("!2");
-        QString v1 = substr.mid(exp+2, (var1-exp-2));
+        v1 = substr.mid(exp+2, (var1-exp-2));
         ui->Readin_2->setText(v1);
         int var2 = substr.indexOf("!3");
-        QString v2 = substr.mid((var1+2), (var2-var1-2));
+        v2 = substr.mid((var1+2), (var2-var1-2));
         ui->Readin_3->setText(v2);
         int var3 = substr.indexOf("!4");
-        QString v3 = substr.mid((var2+2), (var3-var2-2));
+        v3 = substr.mid((var2+2), (var3-var2-2));
         ui->Readin_4->setText(v3);
         int var4 = substr.indexOf("!5");
-        QString v4 = substr.mid((var3+2), (var4-var3-2));
+        v4 = substr.mid((var3+2), (var4-var3-2));
         ui->Readin_5->setText(v4);
         ui->Questions->setText((q_str));
         progressValue-=chunk;
@@ -273,14 +281,14 @@ void questions::on_left_clicked()
 }
 }
 
-//void questions::mousePressEvent(QMouseEvent *event) {
-//    m_nMouseClick_X_Coordinate = event->position().x();
-//    m_nMouseClick_Y_Coordinate = event->position().y();
-//}
+void questions::mousePressEvent(QMouseEvent *event) {
+    m_nMouseClick_X_Coordinate = event->position().x();
+    m_nMouseClick_Y_Coordinate = event->position().y();
+}
 
-//void questions::mouseMoveEvent(QMouseEvent *event) {
-//    move(event->globalPosition().x()-m_nMouseClick_X_Coordinate,event->globalPosition().y()-m_nMouseClick_Y_Coordinate);
-//}
+void questions::mouseMoveEvent(QMouseEvent *event) {
+    move(event->globalPosition().x()-m_nMouseClick_X_Coordinate,event->globalPosition().y()-m_nMouseClick_Y_Coordinate);
+}
 
 void questions::on_questions_accepted()
 {
@@ -290,6 +298,7 @@ void questions::on_questions_accepted()
 void questions::on_check1_clicked()
 {
     user_ans[quest_num-1] = 1;
+    user_ans_strings[quest_num-1] = v1;
     //qDebug() << user_ans[quest_num-1] << " - " << right_answers[quest_num-1];
 }
 
@@ -297,17 +306,20 @@ void questions::on_check1_clicked()
 void questions::on_check2_clicked()
 {
     user_ans[quest_num-1] = 2;
+    user_ans_strings[quest_num-1] = v2;
     //qDebug() << user_ans[quest_num-1] << " - " << right_answers[quest_num-1];
 }
 
 void questions::on_check3_clicked()
 {
     user_ans[quest_num-1] = 3;
+    user_ans_strings[quest_num-1] = v3;
 }
 
 void questions::on_check4_clicked()
 {
     user_ans[quest_num-1] = 4;
+    user_ans_strings[quest_num-1] = v4;
 }
 
 void questions::on_pass_clicked()
@@ -358,17 +370,24 @@ void questions::on_pass_clicked()
         temp_text = QString::number(i+1);
         temp_text1 = QString::number(user_ans[i]);
         temp_text2 = QString::number(right_answers[i]);
-        ui->Questions->append("\n" + temp_text + " вопрос: " + temp_text1 + "/" + temp_text2);
         if(user_ans[i] != right_answers[i]) {
+            ui->Questions->append("\n" + temp_text + " вопрос: " + user_ans_strings[i] + " - неверный ответ, правильный - " + right_ans_strings[i]);
             all--;
+        }
+        else {
+            ui->Questions->append("\n" + temp_text + " вопрос: " + user_ans_strings[i] + " - верный ответ");
         }
     }
     temp_text3 = QString::number(all);
     temp_text4 = QString::number(quest_num);
-    ui->Questions->append("\n\t\tИтого: " + temp_text3 + " из " + temp_text4);
-
-    //delete[]user_ans;
-    //delete[]right_answers;
+    ui->Questions->append("\nИтого: " + temp_text3 + " из " + temp_text4);
+    qDebug() << all;
+    if(all >= 6) {
+        ui->Questions->append(", тест пройден успешно");
+    }
+    else {
+        ui->Questions->append(", тест пройден не удовлетворительно");
+    }
 }
 
 void questions::on_save_clicked()
@@ -397,16 +416,18 @@ void questions::on_save_clicked()
             temp_text = QString::number(i+1);
             temp_text1 = QString::number(user_ans[i]);
             temp_text2 = QString::number(right_answers[i]);
-            QString everything = ("\n" + temp_text + ": " + temp_text1 + "/" + temp_text2);
-            stream << everything;
             if(user_ans[i] != right_answers[i]) {
+                stream << ("\n" + temp_text + " вопрос: " + user_ans_strings[i] + " - неверный ответ, правильный - " + right_ans_strings[i]);
                 all--;
+            }
+            else {
+                stream << ("\n" + temp_text + " вопрос: " + user_ans_strings[i] + " - верный ответ");
             }
         }
         temp_text3 = QString::number(all);
         temp_text4 = QString::number(quest_num);
         stream << ("\n\n" + temp_text3 + " | " + temp_text4);
-        stream << ("\n\nVar: " + user_name);
+        stream << ("\n\nВариант: " + user_name);
     }
 
     //clearing memory otherwise itll be...too bad!
@@ -420,6 +441,9 @@ void questions::on_save_clicked()
     a->setEndValue(0.0);
     a->setEasingCurve(QEasingCurve::InSine);
     a->start(QPropertyAnimation::DeleteWhenStopped);
+    this->parentWidget()->setWindowOpacity(1.0);
+    this->parentWidget()->move(geometry().x(),geometry().y());
+    this->parentWidget()->show();
     connect(a,SIGNAL(finished()),this,SLOT(close()));
 }
 
@@ -435,5 +459,44 @@ void questions::on_okay_clicked()
     a->setEndValue(0.0);
     a->setEasingCurve(QEasingCurve::InSine);
     a->start(QPropertyAnimation::DeleteWhenStopped);
+    this->parentWidget()->setWindowOpacity(1.0);
+    this->parentWidget()->move(geometry().x(),geometry().y());
+    this->parentWidget()->show();
     connect(a,SIGNAL(finished()),this,SLOT(close()));
+}
+
+void questions::Replace(QString &text) {
+    QMap<QString, QString> replace {
+        {"0", "?!*(#-=#"},
+        {"1", "!*!(#-#--"},
+        {"2", "*))!(#=@"},
+        {"3", "?*#)=#-=#"},
+        {"4", "-!(#-=!#="},
+        {"5", "=$:;==--"},
+        {"6", "Ap;l==#-$"},
+        {"7", "-#=#-??*"},
+        {"а", "###-=-@@@"},
+        {"б", "@@@-=-###"},
+        {"в", "###===@@$"},
+        {"г", "$##---@@@"},
+        {"д", "$##===-@@"},
+        {"е", "@-=-!##$#"},
+        {"ж", "#%=%@@@-#"},
+        {"з", "##====@@$"},
+        {"и", "##$$$=-=#"},
+        {"к", "#!!#$=$##"},
+        {"л", "#$#$#$=--"},
+        {"м", "$#$#$#!-!"},
+        {"н", "!#!#!#!-$"},
+        {"о", "!#!#!#!=$"},
+        {"п", "%#%#%#%-!"},
+        {"с", "$!$!-#=#!"},
+        {"у", "(#(#=-$!%"},
+        {"х", "##-(%-=#!"}
+    };
+    QMap<QString, QString>::const_iterator i = replace.constBegin();
+    while (i != replace.constEnd()) {
+        text.replace(i.value(), i.key());
+        ++i;
+    }
 }
