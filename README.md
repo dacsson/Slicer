@@ -33,52 +33,63 @@
 
 Загружаемый документ содержит как _лекцию_, так и _тест_ и придерживается следующего синтаксиса:
 
-- pages marked by: "|{number of the page}|" (the beggining of the document should have |0| **before** lecture); for example: "|4|" - fourth page
-- after the "|{number of the last page}|" and _enter_ should go anwsers to test questions: "[0]:{first question answer}{second question answer}"; for example: "[0]:1435" - 4 answers for 4 questions
-- every question have 5 var. of answers 
-- question beginning marked by: "?{number of question}?"; for example: "?2?" - second question
-- after that and _enter_ comes the actual question (problem) 
-- variants of answers marked by: "!1{first variant}!2{second variant}!3{third variant}...!5"; for example: !1Me!2Nobody!3Richard Stallman!4Based, not cringe!5
-- variants of answers should **always** end with: "!5"
-- question end marked by: ".{number of question}."; for example: ".7." - end of the 7th question
-- do *not* put anything (event _enters_ or _spaces_) after the end of the last question (or between any _blocks_ such as lecture, right answers, questions)
+- В начало документа необходимо написать «|0|», затем с новой строки пишется первая страница теоретического материала.
+- Далее в конец каждой страницы с новой строчки пишется: "|{номер страницы}|" ; пример: "|4|" – четвёртая страница.
+- Номера страниц идут по порядку без повторений.
+- После ввода номера последней страницы :"|{номер последней страницы}|" с новой строки вводятся правильные ответы на вопросы тестовой части: "[0]:{верный ответ на 1 вопрос}{ верный ответ на 2 вопрос }…"; пример: "[0]:1435" - 4 верных ответа на 4 вопроса.
+- Затем с новой строки идут вопросы тестовой части и варианты ответа. Начало вопроса отмечается: "?{номер вопроса}?"; пример: "?2?" – начало второго вопроса;
+- Затем с новой строки следует содержание самого вопроса.
+- Затем с новой строки идут варианты ответа в одну строку: "!1{первый вариант}!2{второй вариант}!3{третий вариант}...!5"; пример: "!1Me!2Nobody!3Richard Stallman!4Based, not cringe!5".
+- Варианты ответы всегда должны кончаться отметкой: "!5".
+- Конец вопроса отмечается: ".{номер вопроса}."; пример: ".7." – конец 7 вопроса.
+- После данной метки не рекомендуется вставлять любые другие символы.
 
-## 3. Settings window will close and progress bar will move to _start_ button, which you should press to start reading lecture
+## 3. Окно вывода лекции
 
-You should press button at the top of that window to initiate showing of document.
+Необходимо нажать кнопку "Старт" сверху документа, чтобы инициализировать считывание документа.
 
 ![screenshot](https://github.com/dacsson/Slicer/blob/main/start.jpg)
 
-User _right_ and _left_ arrows to move around the document.
+Навигация в лекционном материале происходит посредством стрелочек внизу экрана
 
-Progress bar at the very bottom of the app will show you're progress. When it'll be at 100% you can press right arrow to complete that step.
+Положение пользователя в документе показывает линия прогресса в самом низу окна, когда она подойдёт к 100%, нажав на стрелочку вправо начнётся визуализация.
 
-## 4. Lecture window will close and progress bar will move to _test_ button, which you should press to start test 
+## 4. Процесс визуализации
 
-You should choose one of the variants **every** question, even if the button is already look pressed.
+Во время визуализации программа будет выводить сообщения в соответствующем окне сверху. 
+Изначально потребуется ввести 2 матрицы, программа покажет процессы, которые произойдут с ними и промежуточные вычисления (для метода Штрассена и Винограда).
+
+![screenshot](https://github.com/dacsson/Slicer/blob/main/visual.jpg)
+
+Визуализация разбита на шаги, для перехода от одного к следующему следует нажать "Далее".
+
+По окончанию визуализации (вывода результата-матрицы по методу Винограда) программа вернётся в главный экран и линия прогресса сдвинется к тесту.
+
+## 4. Тестирование
+
+Во время тестирования выводятся вопросы из загруженного документа и 4 варианта ответа к каждому. Верный только один, при его выборе засчитывается 1 балл, иначе 0 баллов по данному вопросу.
 
 ![screenshot](https://github.com/dacsson/Slicer/blob/main/question.jpg)
 
-Progress bar at the very bottom of the app will show you're progress.
+Прогресс пользователя, кто бы мог подумать, показывает линия прогресса в самом низу окна.
+На последнем вопросе появится кнопка "Применить", по нажатию который откроется окно Результатов.
 
-## 5. Window with questions will close and the _results_ of the test will apear, you can press _save_ button to save you're results in "{}.txt" file 
+## 5. Реузльтаты
+
+На экран выводятся: номер вопроса, ответ пользователя и верный ответ на вопрос, если пользователь ответил неверно.
 
 ![screenshot](https://github.com/dacsson/Slicer/blob/main/results.jpg)
 
-Either way you can just close that window with button in the upper right corner (you can do it with every step)
+Также, можно сохранить результат, либо выйти из программы.
 
-## 6. Now you'll be back at the main menu and _reload_ button will apear so you can do all process again! 
-
-![screenshot](https://github.com/dacsson/Slicer/blob/main/reboot.jpg)
+При выходе на главном меню появится кнопка "Обновить", позволяющая повторить процесс работы с программой.
 
 ### Epilogue
 
-Every image in /resources is my own image made in Photoshop :).
+Каждая иконка, изображение были выполнены мной в графическом редакторе GIMP.
 
-There is document /resources/text.txt which is an example document.
+В файлах прикреплён экземпляр входного документа (в расширении .slc).
 
-Thank you for reading this introduction, hope you found that interesting enough and will check out the code/program itself!
-
-Feel free to contact me if you will find any bugs.
+P.S. В результате защиты данного курсового проекта я получил не только крутой *опыт*, но и оценку *отлично* :).
 
 
