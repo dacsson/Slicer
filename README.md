@@ -92,7 +92,7 @@
 
 На экран выводятся: номер вопроса, ответ пользователя и верный ответ на вопрос, если пользователь ответил неверно.
 
-![screenshot](https://github.com/dacsson/Slicer/blob/main/results.ong)
+![screenshot](https://github.com/dacsson/Slicer/blob/main/results.png)
 
 Также, можно сохранить результат, либо выйти из программы.
 
